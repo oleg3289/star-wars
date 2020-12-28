@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "rare-lyrix": {
+    "star-wars": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/rare-lyrix/browser",
+            "outputPath": "dist/star-wars/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -62,18 +62,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "rare-lyrix:build"
+            "browserTarget": "star-wars:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "rare-lyrix:build:production"
+              "browserTarget": "star-wars:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "rare-lyrix:build"
+            "browserTarget": "star-wars:build"
           }
         },
         "test": {
@@ -110,18 +110,18 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "rare-lyrix:serve"
+            "devServerTarget": "star-wars:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "rare-lyrix:serve:production"
+              "devServerTarget": "star-wars:serve:production"
             }
           }
         },
         "server": {
           "builder": "@angular-devkit/build-angular:server",
           "options": {
-            "outputPath": "dist/rare-lyrix/server",
+            "outputPath": "dist/star-wars/server",
             "main": "server/server.ts",
             "tsConfig": "tsconfig.server.json"
           },
@@ -142,21 +142,21 @@
         "serve-ssr": {
           "builder": "@nguniversal/builders:ssr-dev-server",
           "options": {
-            "browserTarget": "rare-lyrix:build",
-            "serverTarget": "rare-lyrix:server"
+            "browserTarget": "star-wars:build",
+            "serverTarget": "star-wars:server"
           },
           "configurations": {
             "production": {
-              "browserTarget": "rare-lyrix:build:production",
-              "serverTarget": "rare-lyrix:server:production"
+              "browserTarget": "star-wars:build:production",
+              "serverTarget": "star-wars:server:production"
             }
           }
         },
         "prerender": {
           "builder": "@nguniversal/builders:prerender",
           "options": {
-            "browserTarget": "rare-lyrix:build:production",
-            "serverTarget": "rare-lyrix:server:production",
+            "browserTarget": "star-wars:build:production",
+            "serverTarget": "star-wars:server:production",
             "routes": [
               "/"
             ]
@@ -172,7 +172,7 @@
       }
     }
   },
-  "defaultProject": "rare-lyrix",
+  "defaultProject": "star-wars",
   "cli": {
     "analytics": "2d69d5fe-30d8-4d3a-9012-c37c0f6e7468"
   }

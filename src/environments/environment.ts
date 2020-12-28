@@ -4,8 +4,7 @@
 
 export const environment = {
   production: false,
-  api: `http://localhost:4000/api`,
-  serverUrl: `http://localhost:4000`
+  api: `https://swapi.dev/api`
 };
 
 /*

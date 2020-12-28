@@ -16,7 +16,7 @@ import { SearchModule } from './components/search/search.module';
 
 @NgModule({
     imports:      [ 
-        BrowserModule.withServerTransition({appId: 'rare-lyrix'}), 
+        BrowserModule, 
         CommonModule,
         FormsModule,
         BrowserAnimationsModule,
