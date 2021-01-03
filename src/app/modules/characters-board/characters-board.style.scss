@@ -1,0 +1,36 @@
+@import 'mixins';
+
+app-characters-board {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    .characters-board {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        justify-items: center;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .filter-col {
+        display: block;
+        @include custom-filter;
+    }
+
+    .characters-col {
+        @include custom-board;
+    }
+
+    .character-list {
+        grid-column-start: 2;
+    }
+
+    .favorites {
+        grid-column-start: 3;
+    }
+
+    .cdk-drag {
+        box-sizing: border-box;
+        border-radius: 4px;
+    }
+}

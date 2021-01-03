@@ -9,12 +9,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "dev": "lite-server",
-    "deploy": "ng deploy --base-href=/star-wars/",
-    "dev:ssr": "ng run star-wars:serve-ssr",
-    "build:serve": "npm run build:ssr && npm run serve:ssr",
-    "serve:ssr": "nodemon dist/star-wars/server/main.js",
-    "build:ssr": "ng build --prod && ng run star-wars:server:production --watch",
-    "prerender": "ng run star-wars:prerender"
+    "deploy": "ng deploy --base-href=/star-wars/"
   },
   "private": true,
   "dependencies": {

@@ -30,10 +30,7 @@ $star-wars-theme: mat-light-theme($star-wars-primary, $star-wars-accent, $star-w
 @import './styles/common';
 @import './styles/normalize';
 //////////////////////////////// my style
-@import './styles/variables';
 @import './styles/animate';
+@import './styles/global-styles';
 /////////////////////////////// app
 @import './app/app.style';
-@import './app/components/vanilla/vanilla.style.scss';
-@import './app/components/search/search.style.scss';
-@import './app/components/search/search-row/search-row.style.scss';

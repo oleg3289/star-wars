@@ -1,0 +1,54 @@
+<!-- <app-characters-board> -->
+
+    <section class="characters-board" cdkDropListGroup>
+
+        <!-- Characters filter -->
+        <app-filter class="filter-col"></app-filter>
+
+        <!-- All Star Wars characters -->
+        <section class="characters-col character-list">
+            <h2 class="characters-col__header">Character List</h2>
+
+            <div cdkDropList
+                [cdkDropListData]="filteredCharacters"
+                class="characters-col__list"
+                (cdkDropListDropped)="drop($event)">
+
+                <div *ngFor="let item of filteredCharacters" 
+                    class="characters-col__box"
+                    cdkDrag>
+                    <span class="characters-col__name">{{ item.name }}</span>
+                    <span class="characters-col__drag-indicator material-icons">
+                        drag_indicator
+                    </span>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- Favorite Star Wars characters -->
+        <section class="characters-col favorites">
+            <h2 class="characters-col__header">Favorites</h2>
+
+            <div cdkDropList
+                [cdkDropListData]="favoriteCharacters"
+                class="characters-col__list"
+                (cdkDropListDropped)="drop($event)">
+
+                <div *ngFor="let item of favoriteCharacters" 
+                    class="characters-col__box"
+                    cdkDrag>
+                    <span class="characters-col__name">{{ item.name }}</span>
+                    <span class="characters-col__drag-indicator material-icons">
+                        drag_indicator
+                    </span>
+                </div>
+
+            </div>
+
+        </section>
+
+    </section>
+
+<!-- </app-characters-board> -->

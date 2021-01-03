@@ -1,18 +1,19 @@
-import { NgModule }      from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule }   from '@angular/forms';
-import { AppComponent }   from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
+import { AppComponent } from './app.component';
 import { APP_ROUTING } from './app.routing';
-import { HttpClientModule }    from '@angular/common/http';
+import { CharactersBoardModule } from './modules/characters-board/characters-board.module';
+import { ApiDataResolver } from './guards/apiDataResolver';
 import { AppStorageService } from './services/appStorage';
 import { GetService } from './services/getService';
-import { SongsResolver } from './guards/songsResolver';
-import { VanillaModule } from './components/vanilla/vanilla.module';
-import { CommonModule } from '@angular/common';
-import { SearchModule } from './components/search/search.module';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
     imports:      [ 
@@ -23,15 +24,16 @@ import { SearchModule } from './components/search/search.module';
         MatSidenavModule,
         RouterModule.forRoot(APP_ROUTING),
         HttpClientModule,
-        VanillaModule,
-        SearchModule
+        CharactersBoardModule,
+        MatFormFieldModule,
+        MatInputModule
     ],
     declarations: [ AppComponent ],
     bootstrap:    [ AppComponent ],
     providers: [
         AppStorageService,
         GetService,
-        SongsResolver
+        ApiDataResolver
     ]
 })
 export class AppModule {}
