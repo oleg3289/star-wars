@@ -10,11 +10,11 @@
             <h2 class="characters-col__header">Character List</h2>
 
             <div cdkDropList
-                [cdkDropListData]="filteredCharacters"
+                [cdkDropListData]="CBS.filteredCharacters"
                 class="characters-col__list"
                 (cdkDropListDropped)="drop($event)">
 
-                <div *ngFor="let item of filteredCharacters" 
+                <div *ngFor="let item of CBS.filteredCharacters" 
                     class="characters-col__box"
                     cdkDrag>
                     <span class="characters-col__name">{{ item.name }}</span>
@@ -32,11 +32,11 @@
             <h2 class="characters-col__header">Favorites</h2>
 
             <div cdkDropList
-                [cdkDropListData]="favoriteCharacters"
+                [cdkDropListData]="CBS.favoriteCharacters"
                 class="characters-col__list"
                 (cdkDropListDropped)="drop($event)">
 
-                <div *ngFor="let item of favoriteCharacters" 
+                <div *ngFor="let item of CBS.favoriteCharacters" 
                     class="characters-col__box"
                     cdkDrag>
                     <span class="characters-col__name">{{ item.name }}</span>

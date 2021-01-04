@@ -1,7 +1,7 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from "@angular/cdk/drag-drop";
 import { AfterViewInit, Component, OnInit, ViewEncapsulation } from "@angular/core";
-import { Person } from "src/app/models/character";
 import { AppStorageService } from "src/app/services/appStorage";
+import { CharactersBoardService } from "./characters-board.service";
 
 @Component({
     selector: 'app-characters-board',
@@ -10,26 +10,18 @@ import { AppStorageService } from "src/app/services/appStorage";
     encapsulation: ViewEncapsulation.None
 })
 export class CharactersBoardComponent implements OnInit, AfterViewInit {
-    private _allCharacters: Person[] = [];
-    public filteredCharacters: any[] = [];
-    public favoriteCharacters: Person[] = [];
 
     constructor(
-        private AS: AppStorageService
+        private AS: AppStorageService,
+        public CBS: CharactersBoardService
     ) {}
 
     ngOnInit(): void {
-        this._allCharacters = this.AS.allCharacters;
-        this.filteredCharacters = this.allCharacters;
-
-        this._allCharacters = this.AS.allCharacters;
+        this.CBS.allCharacters = this.AS.allCharacters;
+        this.CBS.filteredCharacters = this.CBS.allCharacters;
     }
 
     ngAfterViewInit(): void {}
-
-    get allCharacters(): Person[] {
-        return this._allCharacters;
-    }
 
     // Drag & Drop methods
     public drop(event: CdkDragDrop<string[]>) {

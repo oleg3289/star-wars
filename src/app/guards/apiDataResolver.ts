@@ -16,7 +16,9 @@ export class ApiDataResolver implements Resolve<boolean>{
         return of(true).pipe(
             mergeMap(() => this.AS.getFirstPagePeople()),
             switchMap(() => this.AS.getRestPeople()),
-            switchMap(() => this.AS.getMovies()),
+            switchMap(() => this.AS.getFilmsList()),
+            switchMap(() => this.AS.getFirstPageSpeciesList()),
+            switchMap(() => this.AS.getRestSpeciesList()),
             tap(() => this.AS.isDataReady$.next()),
             map(() => true)
         )

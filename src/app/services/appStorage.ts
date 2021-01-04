@@ -1,22 +1,28 @@
 import { Injectable } from "@angular/core";
 import { forkJoin, Observable, of, Subject } from 'rxjs';
 import { map, mergeMap, tap } from 'rxjs/operators';
-import { ICharactersData } from "../interfaces/iCharactersData";
-import { Person } from '../models/character';
-import { CharactersData } from "../models/charactersData";
+import { IAbstractData } from "../interfaces/iAbstractData";
+import { ICharacter } from "../interfaces/iCharacter";
+import { IFilm } from "../interfaces/iFilm";
+import { ISpecies } from "../interfaces/iSpecies";
+import { AbstractData } from "../models/abstractData";
+import { Character } from '../models/character';
 import { Film } from "../models/film";
-import { FilmsData } from "../models/filmsData";
+import { Species } from "../models/species";
 import { GetService } from './getService';
 
 @Injectable()
 export class AppStorageService {
-    public allCharacters: Person[] = [];
+    public allCharacters: Character[] = [];
     public allFilms: Film[] = [];
+    public allSpecies: Species[] = [];
 
     private peoplePath: string = `people`;
     private filmsPath: string = `films`;
+    private speciesPath: string = `species`;
 
-    private requests: any[] = [];
+    private peopleRequests: any[] = [];
+    private speciesRequests: any[] = [];
 
     public isDataReady$ = new Subject();
 
@@ -31,8 +37,10 @@ export class AppStorageService {
      */
     public getFirstPagePeople(): Observable<boolean> {
         return of(true).pipe(
-            mergeMap(() => this.GS.getPeopleByPage<CharactersData, ICharactersData>(this.peoplePath, CharactersData, `1`).pipe(
-                map((res: CharactersData) => {
+            mergeMap(() => this.GS.getEntityByPage
+                <AbstractData<Character>, IAbstractData<Character>, Character, ICharacter>
+                (this.peoplePath, AbstractData, Character, `1`).pipe(
+                map((res: AbstractData<Character>) => {
 
                     this.allCharacters.push(...res.results);
                     
@@ -48,7 +56,9 @@ export class AppStorageService {
                     // the first page of people we already have
                     // so let get the rest
                     for (let i = 2; i <= numOfPages; i++) {
-                        this.requests.push( this.GS.getPeopleByPage<CharactersData, ICharactersData>(this.peoplePath, CharactersData, i.toString()) );
+                        this.peopleRequests.push( this.GS.getEntityByPage
+                            <AbstractData<Character>, IAbstractData<Character>, Character, ICharacter>
+                            (this.peoplePath, AbstractData, Character, i.toString()) );
                     }
                 })
             )),
@@ -61,8 +71,8 @@ export class AppStorageService {
      * Handler for the requests array
      */
     public getRestPeople(): Observable<boolean> {
-        return forkJoin(this.requests).pipe(
-            map((res: CharactersData[]) => {
+        return forkJoin(this.peopleRequests).pipe(
+            map((res: AbstractData<Character>[]) => {
                 res.forEach(data => {
                     this.allCharacters.push(...data.results);
                 });
@@ -71,15 +81,62 @@ export class AppStorageService {
         )
     }
 
-    public getMovies(): Observable<boolean> {
+    public getFilmsList(): Observable<boolean> {
         return of(true).pipe(
-            mergeMap(() => this.GS.getFilms(this.filmsPath, FilmsData).pipe(
-                map((res: FilmsData) => {
+            mergeMap(() => this.GS.getEntity
+            <AbstractData<Film>, IAbstractData<Film>, Film, IFilm>
+            (this.filmsPath, AbstractData, Film).pipe(
+                map((res: AbstractData<Film>) => {
 
                     this.allFilms.push(...res.results);
                     
                 })
             )),
+            map(() => true)
+        )
+    }
+
+    public getFirstPageSpeciesList(): Observable<boolean> {
+        return of(true).pipe(
+            mergeMap(() => this.GS.getEntity
+            <AbstractData<Species>, IAbstractData<Species>, Species, ISpecies>
+            (this.speciesPath, AbstractData, Species).pipe(
+                map((res: AbstractData<Species>) => {
+
+                    this.allSpecies.push(...res.results);
+
+                    return res.count; 
+                    
+                }),
+                tap((count) => {
+
+                    // 10 species per page
+                    // let compute a number of pages
+                    const numOfPages = Math.ceil(count / 10);
+
+                    // the first page of species we already have
+                    // so let get the rest
+                    for (let i = 2; i <= numOfPages; i++) {
+                        this.speciesRequests.push( this.GS.getEntityByPage
+                            <AbstractData<Character>, IAbstractData<Character>, Species, ISpecies>
+                            (this.speciesPath, AbstractData, Species, i.toString()) );
+                    }
+                })
+            )),
+            map(() => true)
+        )
+    }
+
+    /**
+     * Handler for the requests array
+     */
+    public getRestSpeciesList(): Observable<boolean> {
+        return forkJoin(this.speciesRequests).pipe(
+            map((res: AbstractData<Species>[]) => {
+                res.forEach(data => {
+                    this.allSpecies.push(...data.results);
+                });
+            }),
             map(() => true)
         )
     }

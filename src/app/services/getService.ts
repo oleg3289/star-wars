@@ -1,9 +1,11 @@
 import { Injectable, Inject, PLATFORM_ID } from "@angular/core";
 import { Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, tap } from 'rxjs/operators';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { environment } from '../../environments/environment';
+import { Character } from "../models/character";
+import { Film } from "../models/film";
 
 @Injectable()
 export class GetService {
@@ -21,11 +23,11 @@ export class GetService {
      * @param c 
      * @param pageNum 
      */
-    public getPeopleByPage<T extends I, I>(col: string, c: {new(i: I) : T}, pageNum: string): Observable<T> {
+    public getEntityByPage<T extends I, I, U extends D, D>(col: string, c: {new(i: I) : T}, sc: {new(i: D) : U}, pageNum: string): Observable<T> {
         return this.http.get<I>( `${environment.api}/${col}/`, { params: { page: pageNum } } )
         .pipe(
             map((res: I) => {
-                return <T> new c(res);
+                return <T> new c(Object.assign(res, {resultsType: sc}));
             }),
             catchError((err) => {
                 this.logErr(err)
@@ -34,11 +36,11 @@ export class GetService {
         )
     }
 
-    public getFilms<T extends I, I>(col: string, c: {new(i: I) : T}): Observable<T> {
+    public getEntity<T extends I, I, U extends D, D>(col: string, c: {new(i: I) : T}, sc: {new(i: D) : U}): Observable<T> {
         return this.http.get<I>( `${environment.api}/${col}/` )
         .pipe(
             map((res: I) => {
-                return <T> new c(res);
+                return <T> new c(Object.assign(res, {resultsType: sc}));
             }),
             catchError((err) => {
                 this.logErr(err)

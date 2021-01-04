@@ -1,4 +1,4 @@
-export interface IPerson {
+export interface ICharacter {
     birth_year: string;
     eye_color: string;
     films: string[];

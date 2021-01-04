@@ -1,5 +1,75 @@
 @import 'mixins';
+@import 'variables';
 
 app-filter {
-    
+    .filter-col {
+        &__form {
+            display: flex;
+            flex-direction: column;
+            padding: 8px;
+        }
+        &__block-wr {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 12px;
+        }
+        &__subheader {
+            color: #fff;
+            font-size: 18px;
+            margin: 8px 0;
+        }
+        &__label, &__select {
+            color: #fff;
+        }
+        &__range-output {
+            align-self: center;
+        }
+        &__slider-wr {
+            margin: 0 10px 12px;
+        }
+        &__slider {
+            width: 100%;
+            padding-left: 7px;
+            padding-right: 7px;
+            margin-bottom: 5px;
+            .p-slider {
+                height: 8px;
+                background: $color-transparent-white;
+                border-radius: 4px;
+            }
+            .p-slider-range {
+                background-color: blue;
+                box-shadow: 0px 0px 5px blue,
+                            0px 0px 15px blue,
+                            0px 0px 25px blue,
+                            0px 0px 35px blue;
+            }
+            .p-slider-handle {
+                cursor: grab;
+                transform: translate(-50%, -50%);
+                width: 14px;
+                height: 14px;
+                border: none;
+                outline: none;
+                background-color: red;
+                box-shadow: 0px 0px 5px red,
+                            0px 0px 15px red,
+                            0px 0px 25px red,
+                            0px 0px 35px red;
+                border-radius: 50%;
+                &_equal-left {
+                    transform: translate(-50%, -50%);
+                }
+                &_equal-right {
+                    transform: translate(50%, -50%);
+                }
+            }
+        }
+    }
+    .mat-select-value-text {
+        color: #fff;
+    }
+    .mat-form-field-flex{
+        background-color: $color-transparent-white !important; 
+    }
 }

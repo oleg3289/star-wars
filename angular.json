@@ -28,7 +28,10 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "./node_modules/primeng/resources/components/slider/slider.css",
+              "node_modules/primeng/resources/components/breadcrumb/breadcrumb.css",
+              "node_modules/primeicons/primeicons.css"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
@@ -52,7 +55,7 @@
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": true,
+              "buildOptimizer": false,
               "budgets": [
                 {
                   "type": "initial",

@@ -14,6 +14,7 @@ import { AppStorageService } from './services/appStorage';
 import { GetService } from './services/getService';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { CharactersBoardService } from './modules/characters-board/characters-board.service';
 
 @NgModule({
     imports:      [ 
@@ -24,16 +25,15 @@ import { MatInputModule } from '@angular/material/input';
         MatSidenavModule,
         RouterModule.forRoot(APP_ROUTING),
         HttpClientModule,
-        CharactersBoardModule,
-        MatFormFieldModule,
-        MatInputModule
+        CharactersBoardModule
     ],
     declarations: [ AppComponent ],
     bootstrap:    [ AppComponent ],
     providers: [
         AppStorageService,
         GetService,
-        ApiDataResolver
+        ApiDataResolver,
+        CharactersBoardService
     ]
 })
 export class AppModule {}

@@ -5,15 +5,50 @@
     <form [formGroup]="filterForm" class="filter-col__form">
         
         <!-- Films block -->
-        <mat-form-field class="filter-col__films">
-            <mat-checkbox class="filter-col__checkbox" 
-                    name="films"
-                    ngDefaultControl
-                    formControlName="films"
-                    [(ngModel)]="checked">
-                    lol
-                </mat-checkbox>
-        </mat-form-field>
+        <div class="filter-col__block-wr">
+            <h2 class="filter-col__subheader">Episode</h2>
+
+            <label formArrayName="films" 
+                *ngFor="let film of filmsFormArray.controls; let i = index"
+                class="filter-col__label">
+                <input type="checkbox" [formControlName]="i">
+                {{ filmsObj[i].titleName }}
+            </label>
+        </div>
+
+        <!-- Species block -->
+        <div class="filter-col__block-wr">
+            <h2 class="filter-col__subheader">Species</h2>
+
+            <mat-form-field appearance="fill">
+                <mat-label class="filter-col__label">Select Species</mat-label>
+                <mat-select class="filter-col__select" 
+                    multiple
+                    [formControlName]="'species'">
+                    <mat-option *ngFor="let species of speciesList; let i = index" [value]="species.id">
+                        {{ species.name }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <!-- Date of birth block -->
+        <div class="filter-col__block-wr">
+            <h2 class="filter-col__subheader">Birth Year</h2>
+
+            <span class="filter-col__range-output">{{ correctBirthYears }}</span>
+
+            <div class="filter-col__slider-wr">
+                <p-slider class="filter-col__slider"
+                    #priceSlider
+                    [formControlName]="'birthYears'"
+                    [range]="true" 
+                    [min]="minYear" 
+                    [max]="maxYear"
+                    [step]="step">
+                </p-slider>
+            </div>
+        </div>
 
     </form>
 
