@@ -37,7 +37,6 @@ export class CharactersBoardComponent implements OnInit, AfterViewInit {
             moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
         } else {
             this.saveFavoritesLocal(event);
-            console.log(event.container.data)
 
             transferArrayItem(event.previousContainer.data,
                             event.container.data,
@@ -74,15 +73,13 @@ export class CharactersBoardComponent implements OnInit, AfterViewInit {
     private async boardFilterCharacters(isDropped: boolean) {
         let favoritesIds: number[] = this.getLocalFavoritesIds();
 
-        this.CBS.allCharacters = this.CBS.allCharacters.filter((ch: Character) => {
+        this.CBS.allCharacters = this.AS.allCharacters.filter((ch: Character) => {
             let isInFavoritesArray: boolean = favoritesIds.includes(ch.id);
 
             if (isInFavoritesArray && !isDropped) this.CBS.favoriteCharacters.push(ch);
 
             return !isInFavoritesArray;
         })
-        
-        // console.log(this.CBS.allCharacters)
     }
 
     private getLocalFavoritesIds() {
