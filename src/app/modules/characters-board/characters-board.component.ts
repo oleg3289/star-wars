@@ -37,6 +37,7 @@ export class CharactersBoardComponent implements OnInit, AfterViewInit {
             moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
         } else {
             this.saveFavoritesLocal(event);
+            console.log(event.container.data)
 
             transferArrayItem(event.previousContainer.data,
                             event.container.data,
