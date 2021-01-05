@@ -1,12 +1,37 @@
 @import 'mixins';
 @import 'variables';
 
+@mixin lightsaber-effect($main-color, $outline-color) {
+    background-color: $main-color;
+    box-shadow: 0px 0px 6px $main-color,
+                0px 0px 8px $main-color,
+                0px 0px 5px $outline-color,
+                0px 0px 15px $outline-color,
+                0px 0px 25px $outline-color,
+                0px 0px 35px $outline-color;
+}
+
 app-filter {
     .filter-col {
+        &__or-switch {
+            position: absolute;
+            right: 12px;
+            top: 6px;
+            .mat-slide-toggle-thumb {
+                @include lightsaber-effect(rgb(255, 239, 239), rgb(255, 0, 0));
+            }
+            &.mat-checked .mat-slide-toggle-thumb {
+                background-color: rgb(255, 0, 0);
+            }
+            &.mat-checked .mat-slide-toggle-bar {
+                background-color: rgba(255, 0, 0, 0.54);;
+            }
+        }
         &__form {
             display: flex;
             flex-direction: column;
             padding: 8px;
+            position: relative;
         }
         &__block-wr {
             display: flex;
@@ -20,6 +45,9 @@ app-filter {
         }
         &__label, &__select {
             color: #fff;
+        }
+        &__label {
+            padding: 4px 0 4px 12px;
         }
         &__range-output {
             align-self: center;
@@ -38,11 +66,7 @@ app-filter {
                 border-radius: 4px;
             }
             .p-slider-range {
-                background-color: blue;
-                box-shadow: 0px 0px 5px blue,
-                            0px 0px 15px blue,
-                            0px 0px 25px blue,
-                            0px 0px 35px blue;
+                @include lightsaber-effect(rgb(241, 241, 255), rgb(0, 0, 255));
             }
             .p-slider-handle {
                 cursor: grab;
@@ -51,17 +75,13 @@ app-filter {
                 height: 14px;
                 border: none;
                 outline: none;
-                background-color: red;
-                box-shadow: 0px 0px 5px red,
-                            0px 0px 15px red,
-                            0px 0px 25px red,
-                            0px 0px 35px red;
+                @include lightsaber-effect(rgb(255, 239, 239), rgb(255, 0, 0));
                 border-radius: 50%;
                 &_equal-left {
-                    transform: translate(-50%, -50%);
+                    transform: translate(-100%, -50%);
                 }
                 &_equal-right {
-                    transform: translate(50%, -50%);
+                    transform: translate(0, -50%);
                 }
             }
         }

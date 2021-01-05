@@ -3,7 +3,10 @@
 
     <!-- preloader -->
     <div class="preloader-wr" *ngIf="!isLoading">
-        <h1>Loading...</h1>
+        <div class="preloader-wr__content">
+            <div class="preloader-wr__progress"></div>
+            <h1 class="preloader-wr__text">LOADING</h1>
+        </div>
     </div>
 
     <!-- main area -->

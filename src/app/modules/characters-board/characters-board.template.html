@@ -10,13 +10,16 @@
             <h2 class="characters-col__header">Character List</h2>
 
             <div cdkDropList
+                [id]="characterListId"
                 [cdkDropListData]="CBS.filteredCharacters"
                 class="characters-col__list"
                 (cdkDropListDropped)="drop($event)">
 
                 <div *ngFor="let item of CBS.filteredCharacters" 
                     class="characters-col__box"
-                    cdkDrag>
+                    cdkDrag
+                    [id]="item.id"
+                    (click)="log(item)">
                     <span class="characters-col__name">{{ item.name }}</span>
                     <span class="characters-col__drag-indicator material-icons">
                         drag_indicator
@@ -32,12 +35,14 @@
             <h2 class="characters-col__header">Favorites</h2>
 
             <div cdkDropList
+                [id]="favoriteListId"
                 [cdkDropListData]="CBS.favoriteCharacters"
                 class="characters-col__list"
                 (cdkDropListDropped)="drop($event)">
 
                 <div *ngFor="let item of CBS.favoriteCharacters" 
                     class="characters-col__box"
+                    [id]="item.id"
                     cdkDrag>
                     <span class="characters-col__name">{{ item.name }}</span>
                     <span class="characters-col__drag-indicator material-icons">

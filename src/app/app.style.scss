@@ -9,8 +9,27 @@ app-root {
         z-index: 1000;
         width: 100%;
         height: 100%;
-        background-color: pink;
         transition: visibility 0.325s linear;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        &__content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        &__progress {
+            width: 500px;
+            height: 208px;
+            background-image: url('assets/images/droid.gif');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+        }
+        &__text {
+            animation: blink 1s linear infinite;
+        }
         &.hide {
             z-index: -999;
             display: none;
@@ -22,7 +41,7 @@ app-root {
         position: relative;
         width: 100%;
         height: 100%;
-        background-image: linear-gradient( rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35) ), url('/assets/images/sw-background.jpg');
+        background-image: linear-gradient( rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35) ), url('assets/images/sw-background.jpg');
         background-repeat: no-repeat;
         background-size: cover;
         background-position: center top;
@@ -57,4 +76,10 @@ app-root {
             z-index: 3;
         }
     }
+}
+
+@keyframes blink {
+    0%{opacity: 0; transform: scale(.8);}
+    50%{opacity: .5; transform: scale(.9);}
+    100%{opacity: 1; transform: scale(1);}
 }

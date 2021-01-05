@@ -1,6 +1,7 @@
 import { DOCUMENT } from "@angular/common";
-import { AfterViewInit, ChangeDetectionStrategy, Component, Inject, OnInit, Renderer2, ViewEncapsulation } from "@angular/core";
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Inject, OnInit, Renderer2, ViewChild, ViewEncapsulation } from "@angular/core";
 import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import { Slider } from "primeng/slider";
 import { Character } from "src/app/models/character";
 import { Film } from "src/app/models/film";
 import { Species } from "src/app/models/species";
@@ -37,10 +38,16 @@ export class FilterComponent implements OnInit, AfterViewInit {
 
     public selectedSpeciesId: number[] = [];
 
+    // to get correct year should add -900
+    // entire range will be from -900 BBY to 10 ABY
     public minYear: number = 0;
-    public maxYear: number = 35;
+    public maxYear: number = 910;
     public step: number = 1;
     public birthYearsRange: number[] = [];
+
+    public orRelationship: boolean = false;
+
+    @ViewChild('slider', {static: false}) private slider: Slider;
     
     constructor(
         @Inject(DOCUMENT) private document: Document,
@@ -50,9 +57,10 @@ export class FilterComponent implements OnInit, AfterViewInit {
         private renderer: Renderer2
     ) {
         this.filterForm = this.formBuilder.group({
-            films: new FormArray([]),
-            species: new FormControl(''),
-            birthYears: new FormControl('')
+            or: [this.orRelationship],
+            films: this.formBuilder.array([]),
+            species: [''],
+            birthYears: ['']
         });
     }
 
@@ -76,18 +84,24 @@ export class FilterComponent implements OnInit, AfterViewInit {
             this.initFilter();
         })
         // Subscription on species select changing
-        this.filterForm.get('species').valueChanges.subscribe((data) => {
+        this.filterForm.get('species').valueChanges.subscribe((data: number[]) => {
 
             this.selectedSpeciesId = data;
 
             this.initFilter();
         })
         // Subscription on birth year slider changing
-        this.filterForm.get('birthYears').valueChanges.subscribe((data) => {
+        this.filterForm.get('birthYears').valueChanges.subscribe((data: number[]) => {
             
             this.birthYearsRange = data;
             
-            this.fixOnEqualPrice();
+            this.fixOnEqualYears();
+            this.initFilter();
+        })
+        // Subscription on OR slide toggle changing
+        this.filterForm.get('or').valueChanges.subscribe((state: boolean) => {
+            this.orRelationship = state;
+
             this.initFilter();
         })
     }
@@ -97,26 +111,26 @@ export class FilterComponent implements OnInit, AfterViewInit {
         return this.filterForm.controls.films as FormArray;
     }
 
-    // get correctBirthYears(): string {
-    //     let startPoint: number = this.birthYearsRange[0] - 30;
-    //     let endPoint: number = this.birthYearsRange[1] - 30;
+    get correctBirthYears(): string {
+        let startPoint: number = this.birthYearsRange[0] - 900;
+        let endPoint: number = this.birthYearsRange[1] - 900;
 
-    //     let startYear: string = this.getYearStr(startPoint);
-    //     let endYear: string = this.getYearStr(endPoint);
+        let startYear: string = this.getYearStr(startPoint);
+        let endYear: string = this.getYearStr(endPoint);
 
-    //     return startYear + ' - ' + endYear;
-    // }
-    // //////////////////////////////////////
+        return startYear + ' - ' + endYear;
+    }
+    //////////////////////////////////////
 
-    // private getYearStr(year: number) {
-    //     if (year < 0) {
-    //         return `${Math.abs(year)} BBY`;
-    //     } else if (year > 0) {
-    //         return `${Math.abs(year)} ABY`;
-    //     } else {
-    //         return year.toString();
-    //     }
-    // }
+    private getYearStr(year: number) {
+        if (year < 0) {
+            return `${Math.abs(year)} BBY`;
+        } else if (year > 0) {
+            return `${Math.abs(year)} ABY`;
+        } else {
+            return year.toString();
+        }
+    }
 
     private setFilmsObj(): void {
         // set selected films array
@@ -139,31 +153,48 @@ export class FilterComponent implements OnInit, AfterViewInit {
         this.filmsObj.forEach(() => this.filmsFormArray.push(new FormControl(false)));
     }
 
+    /**
+     * Main Filter
+     * 
+     * 
+     */
     private initFilter(): void {
         const SELECTED_FILMS: number[] = [];
         this.filmsObj.forEach((t) => t.selected ? SELECTED_FILMS.push(t.episode_id) : null );
 
         // if there are no selected filmsObj, then select all
-        if (!SELECTED_FILMS.length && !this.selectedSpeciesId.length) {
+        if (!SELECTED_FILMS.length && !this.selectedSpeciesId.length && !this.birthYearsRange.length) {
             this.CBS.filteredCharacters = this.CBS.allCharacters;
             return;
         }
 
         this.CBS.filteredCharacters = this.CBS.allCharacters.filter((ch: Character) => {
-            let isMatchFilms = true;
-            let isMatchSpecies = true;
-            if (SELECTED_FILMS.length) isMatchFilms = SELECTED_FILMS.every((st: number) => ch.episode_ids.includes(st));
-            if (this.selectedSpeciesId.length) isMatchSpecies = this.selectedSpeciesId.every((ssi: number) => ch.species_ids.includes(ssi));
+            let isMatchFilms = this.orRelationship ? false : true;
+            let isMatchSpecies = this.orRelationship ? false : true;
+            let isMatchBirthYears = this.orRelationship ? false : true;
 
-            return isMatchFilms && isMatchSpecies;
+            // Episodes match
+            if (SELECTED_FILMS.length) 
+                isMatchFilms = SELECTED_FILMS.every((st: number) => ch.episode_ids.includes(st));
+
+            // Species match
+            if (this.selectedSpeciesId.length) 
+                isMatchSpecies = this.selectedSpeciesId.every((ssi: number) => ch.species_ids.includes(ssi));
+
+            // Birth year match
+            if (!ch.birth_year) isMatchBirthYears = false;
+            else if (this.birthYearsRange.length) 
+                isMatchBirthYears = (this.birthYearsRange[0] - 900) <= ch.birth_year_num && ch.birth_year_num <= (this.birthYearsRange[1] - 900);
+            
+            return this.orRelationship ? isMatchFilms || isMatchSpecies || isMatchBirthYears :
+                                         isMatchFilms && isMatchSpecies && isMatchBirthYears
         })
     }
 
-    // Range slider
-    // 236px - slider width
-    private fixOnEqualPrice(): void {
-        const leftBut = <HTMLElement>this.document.querySelectorAll('.p-slider-handle')[0];
-        const rightBut = <HTMLElement>this.document.querySelectorAll('.p-slider-handle')[1];
+    // Fix on equal years
+    private fixOnEqualYears(): void {
+        const leftBut = <HTMLElement>this.slider.el.nativeElement.querySelectorAll('.p-slider-handle')[0];
+        const rightBut = <HTMLElement>this.slider.el.nativeElement.querySelectorAll('.p-slider-handle')[1];
 
         if (this.birthYearsRange[1] === this.birthYearsRange[0]) {
             this.renderer.addClass(leftBut, 'p-slider-handle_equal-left');

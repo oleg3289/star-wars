@@ -3,6 +3,8 @@
     <h2 class="filter-col__header">Filter</h2>
 
     <form [formGroup]="filterForm" class="filter-col__form">
+
+        <mat-slide-toggle class="filter-col__or-switch" [formControlName]="'or'">OR</mat-slide-toggle>
         
         <!-- Films block -->
         <div class="filter-col__block-wr">
@@ -36,10 +38,12 @@
         <div class="filter-col__block-wr">
             <h2 class="filter-col__subheader">Birth Year</h2>
 
-            <span class="filter-col__range-output">{{ correctBirthYears }}</span>
+            <span class="filter-col__range-output">
+                {{ birthYearsRange.length ? correctBirthYears : '...' }}
+            </span>
 
             <div class="filter-col__slider-wr">
-                <p-slider class="filter-col__slider"
+                <p-slider #slider class="filter-col__slider"
                     #priceSlider
                     [formControlName]="'birthYears'"
                     [range]="true" 

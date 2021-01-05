@@ -77,6 +77,13 @@ export class AppStorageService {
                     this.allCharacters.push(...data.results);
                 });
             }),
+            tap(() => {
+                this.allCharacters.sort((a: Character, b: Character) => {
+                    if (a.name > b.name) return 1;
+                    if (a.name < b.name) return -1;
+                    else return 0;
+                })
+            }),
             map(() => true)
         )
     }

@@ -9,6 +9,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { SliderModule } from 'primeng/slider';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
     imports: [
@@ -21,7 +22,8 @@ import { SliderModule } from 'primeng/slider';
         MatCheckboxModule,
         MatSelectModule,
         MatFormFieldModule,
-        SliderModule
+        SliderModule,
+        MatSlideToggleModule
     ],
     declarations: [FilterComponent],
     exports: [FilterComponent]

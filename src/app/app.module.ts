@@ -12,8 +12,6 @@ import { CharactersBoardModule } from './modules/characters-board/characters-boa
 import { ApiDataResolver } from './guards/apiDataResolver';
 import { AppStorageService } from './services/appStorage';
 import { GetService } from './services/getService';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { CharactersBoardService } from './modules/characters-board/characters-board.service';
 
 @NgModule({
