@@ -46,12 +46,21 @@ export class CharactersBoardComponent implements OnInit, AfterViewInit {
     }
 
     private saveFavoritesLocal(event) {
-        const CHARACTER_ID: number = event.item.element.nativeElement.id;
+        const CHARACTER_ID: number = +event.item.element.nativeElement.id;
         if (event.previousContainer.id === this.characterListId) {
             let favoritesIds: number[] = this.getLocalFavoritesIds();
             
-            if (!favoritesIds.includes(CHARACTER_ID)) favoritesIds.push(CHARACTER_ID);
+            favoritesIds.push(CHARACTER_ID);
             
+            localStorage.setItem('favorites', JSON.stringify(favoritesIds));
+
+            this.boardFilterCharacters(true);
+        }
+        if (event.previousContainer.id === this.favoriteListId) {
+            let favoritesIds: number[] = this.getLocalFavoritesIds();
+
+            favoritesIds = favoritesIds.filter((id: number) => id !== CHARACTER_ID);
+
             localStorage.setItem('favorites', JSON.stringify(favoritesIds));
 
             this.boardFilterCharacters(true);
@@ -71,6 +80,8 @@ export class CharactersBoardComponent implements OnInit, AfterViewInit {
 
             return !isInFavoritesArray;
         })
+        
+        // console.log(this.CBS.allCharacters)
     }
 
     private getLocalFavoritesIds() {
