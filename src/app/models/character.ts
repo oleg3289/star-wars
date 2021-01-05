@@ -14,13 +14,14 @@ export class Character implements ICharacter {
     public skin_color: string;
     public created: string;
     public edited: string;
-    public starships: string[];
     public vehicles: string[];
     public episode_ids?: number[] = [];
     public species_ids?: number[] = [];
+    public starships_ids?: number[] = [];
     private _url: string;
     private _species: string[];
     private _films: string[];
+    private _starships: string[];
     private _birth_year: string;
 
     constructor(values: object = {}) {
@@ -87,5 +88,21 @@ export class Character implements ICharacter {
 
     get url() {
         return this._url;
+    }
+
+    set starships(val: string[]) {
+        let ss_ids = val.map((v: string) => {
+            let particles: string[] = v.split('/').filter((s: string) => s);
+            let id: number = +particles[particles.length-1];
+            return id;
+        })
+        
+        this.starships_ids.push(...ss_ids);
+
+        this._starships = val;
+    }
+
+    get starships(): string[] {
+        return this._starships;
     }
 }

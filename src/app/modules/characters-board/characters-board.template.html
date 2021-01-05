@@ -17,9 +17,9 @@
 
                 <div *ngFor="let item of CBS.filteredCharacters" 
                     class="characters-col__box"
-                    cdkDrag
                     [id]="item.id"
-                    (click)="log(item)">
+                    (click)="openCharacterDetails(item)"
+                    cdkDrag>
                     <span class="characters-col__name">{{ item.name }}</span>
                     <span class="characters-col__drag-indicator material-icons">
                         drag_indicator
@@ -43,6 +43,7 @@
                 <div *ngFor="let item of CBS.favoriteCharacters" 
                     class="characters-col__box"
                     [id]="item.id"
+                    (click)="openCharacterDetails(item)"
                     cdkDrag>
                     <span class="characters-col__name">{{ item.name }}</span>
                     <span class="characters-col__drag-indicator material-icons">

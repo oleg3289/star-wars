@@ -1,0 +1,18 @@
+<section class="character-details">
+
+    <h2 class="character-details__name">{{character.name}}</h2>
+
+    <div class="character-details__characteristics">
+        <div class="character-details__characteristics-item">
+            <span>Species: </span> {{ getEntitiesByIds(character.species_ids, 'allSpecies') }}
+        </div>
+        <div class="character-details__characteristics-item">
+            <span>Movies: </span> {{ getEntitiesByIds(character.episode_ids, 'allFilms') }}
+        </div>
+        <div class="character-details__characteristics-item">
+            <span>Spaceships: </span> {{ getEntitiesByIds(character.species_ids, 'allStarships') }}
+        </div>
+        
+    </div>
+
+</section>

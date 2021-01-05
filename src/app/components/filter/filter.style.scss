@@ -1,16 +1,6 @@
 @import 'mixins';
 @import 'variables';
 
-@mixin lightsaber-effect($main-color, $outline-color) {
-    background-color: $main-color;
-    box-shadow: 0px 0px 6px $main-color,
-                0px 0px 8px $main-color,
-                0px 0px 5px $outline-color,
-                0px 0px 15px $outline-color,
-                0px 0px 25px $outline-color,
-                0px 0px 35px $outline-color;
-}
-
 app-filter {
     .filter-col {
         &__or-switch {

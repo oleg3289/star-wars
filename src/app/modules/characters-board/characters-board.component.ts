@@ -1,5 +1,7 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from "@angular/cdk/drag-drop";
 import { AfterViewInit, Component, OnInit, ViewEncapsulation } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
+import { CharacterDetailsComponent } from "src/app/components/character-details/character-details.component";
 import { Character } from "src/app/models/character";
 import { AppStorageService } from "src/app/services/appStorage";
 import { CharactersBoardService } from "./characters-board.service";
@@ -16,7 +18,8 @@ export class CharactersBoardComponent implements OnInit, AfterViewInit {
 
     constructor(
         private AS: AppStorageService,
-        public CBS: CharactersBoardService
+        public CBS: CharactersBoardService,
+        public dialog: MatDialog
     ) {}
 
     ngOnInit(): void {
@@ -79,7 +82,13 @@ export class CharactersBoardComponent implements OnInit, AfterViewInit {
         return favoritesIds;
     }
 
-    public log(item) {
-        console.log(item)
+    public openCharacterDetails(item: Character) {
+        const dialogRef = this.dialog.open(CharacterDetailsComponent, {
+            height: '250px',
+            width: '440px',
+            data: item
+        });
+
+        dialogRef.afterClosed().subscribe();
     }
 }
