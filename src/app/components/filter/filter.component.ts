@@ -95,7 +95,7 @@ export class FilterComponent implements OnInit, AfterViewInit {
             
             this.birthYearsRange = data;
             
-            this.fixOnEqualYears();
+            // this.fixOnEqualYears();
             this.initFilter();
         })
         // Subscription on OR slide toggle changing

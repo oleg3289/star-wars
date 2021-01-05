@@ -188,7 +188,7 @@ export class AppStorageService {
      * Handler for the requests array
      */
     public getRestStarships(): Observable<boolean> {
-        return forkJoin(this.speciesRequests).pipe(
+        return forkJoin(this.starshipsRequests).pipe(
             map((res: AbstractData<Starship>[]) => {
                 res.forEach(data => {
                     this.allStarships.push(...data.results);
